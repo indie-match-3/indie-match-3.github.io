@@ -81,7 +81,7 @@ function increment() {
 	data.exp += mobs[data.curr_mob].exp_mult * data.dpc;
 	data.curr_hp -= data.dpc;
 
-	// update();
+	update();
 }
 
 function idleIncrement() {
@@ -132,7 +132,7 @@ function buy_upgrade(i) {
 		upgrades[i].cost *= upgrades[i].cost_mult;
 		upgrades[i].count++;
 
-		// update();
+		update();
 	}
 }
 
