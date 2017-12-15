@@ -42,14 +42,13 @@ var upgrades =
 function toEnginering(number) {
 	var prefix = ['', 'k', 'M', 'B'];
 	var rounded = Math.floor(number);
-	var ind = 0;
+	var digits = Math.ceil(Math.log10(rounded + 1));
+	var cuteDigits = (digits > 2) ? digits - 3 : 0;
+	var prefInd = Math.ceil(cuteDigits / 3);
 
-	while(rounded >= 1000) {
-		rounded = Math.floor(rounded / 1000);
-		ind++;
-	}
+	rounded = rounded / Math.pow(10, prefInd * 3);
 
-	return rounded + prefix[ind];
+	return rounded.toPrecision(digits - cuteDigits) + prefix[prefInd];
 }
 
 function save() {
