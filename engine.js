@@ -39,6 +39,19 @@ var upgrades =
 ]
 
 
+function toEnginering(number) {
+	var prefix = ['', 'k', 'M', 'B'];
+	var rounded = Math.floor(number);
+	var ind = 0;
+
+	while(rounded >= 1000) {
+		rounded = Math.floor(rounded / 1000);
+		ind++;
+	}
+
+	return rounded + prefix[ind];
+}
+
 function save() {
 	localStorage.setItem('data', JSON.stringify(data));
 	localStorage.setItem('mobs', JSON.stringify(mobs));
@@ -60,18 +73,18 @@ function load() {
 }
 
 function update() {
-	document.getElementById("money").innerHTML = Math.floor(data.money);
-	document.getElementById("exp").innerHTML = Math.floor(data.exp);
-	document.getElementById("dpc").innerHTML = data.dpc;
-	document.getElementById("dps").innerHTML = data.dps;
+	document.getElementById("money").innerHTML = toEnginering(data.money);
+	document.getElementById("exp").innerHTML = toEnginering(data.exp);
+	document.getElementById("dpc").innerHTML = toEnginering(data.dpc);
+	document.getElementById("dps").innerHTML = toEnginering(data.dps);
 
 	for(var i = 0; i < upgrades.length; i++) {
-		document.getElementById("upcost-" + i).innerHTML = Math.floor(upgrades[i].cost);
-		document.getElementById("upcount-" + i).innerHTML = upgrades[i].count;
+		document.getElementById("upcost-" + i).innerHTML = toEnginering(upgrades[i].cost);
+		document.getElementById("upcount-" + i).innerHTML = toEnginering(upgrades[i].count);
 	}
 
-	document.getElementById("curr_hp").innerHTML = Math.floor(data.curr_hp);
-	document.getElementById("hp_max").innerHTML = mobs[data.curr_mob].hp_max;
+	document.getElementById("curr_hp").innerHTML = toEnginering(data.curr_hp);
+	document.getElementById("hp_max").innerHTML = toEnginering(mobs[data.curr_mob].hp_max);
 
 	save();
 }
