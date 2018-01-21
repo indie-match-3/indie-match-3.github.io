@@ -1,0 +1,8 @@
+span, button{
+	margin: 15px;
+	font-size: 30px;
+}
+
+span span {
+	margin: 0;
+}

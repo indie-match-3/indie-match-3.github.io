@@ -163,6 +163,4 @@ function init() {
 	genUpgradesTable();
 
 	var t = setInterval(idleIncrement, updateDelay)
-
-	// update();
 }
