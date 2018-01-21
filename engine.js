@@ -163,4 +163,9 @@ function init() {
 	genUpgradesTable();
 
 	var t = setInterval(idleIncrement, updateDelay)
+<<<<<<< HEAD
+=======
+//ti pidor
+	// update();
+>>>>>>> f0cd3b5111c3cdc44d2c6db609bce0417f7dd61d
 }
