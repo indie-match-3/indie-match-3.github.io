@@ -1,0 +1,48 @@
+div#edit {
+	background-color: #444;
+}
+
+text.highlighted {
+	font-style: italic;
+	font-weight: bold;
+}
+
+text {
+	color: white;
+	/*font-family: Times, Times New Roman, serif;*/
+	font-family: monospace;
+	white-space: pre-wrap; /*under question*/
+	/*white-space: pre;*/ /*needed*/
+}
+
+#tab {
+	display: block;
+}
+
+#type {
+	color: #44F;
+}
+
+#keyword {
+	color: #D01;
+}
+
+#comment {
+	color: #888;
+}
+
+#int-value {
+	color: #808000;
+}
+
+#str-value {
+	color: #FF7F50;
+}
+
+#func-def {
+	color: #1E90FF;
+}
+
+#func-call {
+	color: #BA55D3;
+}
