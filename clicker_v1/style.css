@@ -3,14 +3,15 @@ body {
 }
 
 #main {
-	width: 50%;
-	margin: auto;
+	width: 100%;
 	margin-top: 25px;
 	background-color: #85A
 }
 
 #progress_bg {
 	height: 15px;
+    width: 50%;
+    margin: 0 auto;
 	background-color: #A05F5F;
 	border-color: red;
 	border-style: solid;
@@ -30,9 +31,7 @@ body {
 }
 
 #main_panel {
-	border-color: white;
-	border-style: solid;
-	border-width: 5px;	
+	border: solid 5px white;	
 	background-color: #C05F50;
 	height: 500px;
 	width: 500px;
@@ -41,8 +40,8 @@ body {
 }
 
 #cell {
-	height: 90px;
-	width: 90px;
+	height: Calc(20% - 10px);
+    width: Calc(20% - 10px);
 	background-color: #AAA;
 	float: left;
 	border-style: solid;
