@@ -4,5 +4,5 @@
 	<script src="engine.js"></script>
 </head>
 <body onload="init()">
-	<div id="edit" contenteditable="true" onkeydown="return false;"></div>
+	<div id="edit" contenteditable="true" onkeyup="keyUp(event)" onkeydown="keyDown(event)" onkeypress="keyPress(event)"></div>
 </body>

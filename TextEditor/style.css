@@ -9,10 +9,8 @@ text.highlighted {
 
 text {
 	color: white;
-	/*font-family: Times, Times New Roman, serif;*/
 	font-family: monospace;
-	white-space: pre-wrap; /*under question*/
-	/*white-space: pre;*/ /*needed*/
+	white-space: pre-wrap;
 }
 
 #tab {
@@ -45,4 +43,8 @@ text {
 
 #func-call {
 	color: #BA55D3;
+}
+
+#figures {
+	border-bottom: 1px solid #fff;
 }
