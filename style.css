@@ -1,0 +1,90 @@
+.currency_panel {
+	width: 98%;
+	height: 120px;
+	font-size: 40px;
+	line-height: 60px;
+	background-color: #ABC;
+	text-align: center;
+	margin: 1% 1% 0 1%;
+	border-radius: 10px;
+	top: 0;
+}
+
+.upgrade_panel {
+	text-align: center;
+	width: 48%;
+	height: 120px;
+	font-size: 20px;
+	line-height: 60px;
+	background-color: #ABC;
+	margin: 1% 1% 0 1%;
+	border-radius: 10px;
+	top: 0;
+	float: left;
+}
+
+.upgrade_text {
+	left: 0;
+	width: 66%;
+	height: 60px;
+	border-radius: 10px;
+	background-color: darkgrey;
+	position: relative;
+}
+
+.upgrade_increment {
+	left: 0;
+	width: 33%;
+	height: 60px;
+	border-radius: 10px;
+	background-color: darkgrey;
+	position: relative;
+}
+
+.upgrade_count {
+	text-align: center;
+	left: 33%;
+	top: -60px;
+	width: 33%;
+	height: 60px;
+	border-radius: 10px;
+	background-color: darkgrey;
+	position: relative;
+}
+
+.upgrade_button {
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	user-select: none; 
+	width: 34%;
+	height: 60px;
+	left: 66%;
+	top: -180px;
+	border-radius: 10px;
+	background-color: darkgrey;
+	position: relative;
+}
+
+.upgrade_cost {
+	width: 34%;
+	height: 60px;
+	left: 66%;
+	top: -180px;
+	border-radius: 10px;
+	background-color: darkgrey;
+	position: relative;
+}
+
+#autosave_panel {
+	width: 25%;
+	border-radius: 10px;
+	height: 60px;
+	position: absolute;
+	text-align: center;
+	background-color: darkgrey;
+	line-height: 60px;
+	color: white;
+	font-size: 200%;
+	margin: 1% 1% 0 1%;
+	z-index: 1000;
+}
