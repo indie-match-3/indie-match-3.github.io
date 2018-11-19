@@ -1,8 +1,8 @@
 var names = ["Assembler", "C", "C++", "Golang", "Python", "C#", "Java", "Php"]
 
 var data = {
-	// currency: 0,
-	currency: 1000,
+	currency: 0,
+	// currency: 1000,
 	mult: 1.2,
 	costs: [1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8],
 	increments: [1, 2, 4, 8, 16, 32, 64, 128],
@@ -17,7 +17,7 @@ function save() {
 	setTimeout(() => panel.style.display = "none", 1000)
 }
 
-setInterval(save, 3000)
+setInterval(save, 30000)
 
 function load() {
 	var buf = localStorage.getItem("save")
