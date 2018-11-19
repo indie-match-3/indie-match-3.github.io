@@ -16,7 +16,6 @@
 	height: 120px;
 	font-size: 20px;
 	line-height: 60px;
-	background-color: #ABC;
 	margin: 1% 1% 0 1%;
 	border-radius: 10px;
 	top: 0;
@@ -84,7 +83,46 @@
 	background-color: darkgrey;
 	line-height: 60px;
 	color: white;
-	font-size: 200%;
+	font-size: 20px;
 	margin: 1% 1% 0 1%;
 	z-index: 1000;
+}
+
+.prestige_panel {
+	margin: 1% 1% 0 1%;
+	width: 25%;
+	height: 120px;
+	font-size: 20px;
+	line-height: 60px;
+	position: absolute;
+	text-align: center;
+	right: 0;
+	top: 0;
+}
+
+.prestige_current {
+	background-color: darkgrey;
+	border-radius: 10px;
+	width: 48%;
+	height: 60px;
+	position: relative;
+}
+
+.prestige_adds {
+	background-color: darkgrey;
+	border-radius: 10px;
+	width: 48%;
+	height: 60px;
+	position: relative;
+	left: 50%;
+	top: -60px;
+}
+
+.prestige_button {
+	background-color: darkgrey;
+	border-radius: 10px;
+	width: 98%;
+	height: 60px;
+	position: relative;
+	top: -60px;
 }

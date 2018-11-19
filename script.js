@@ -45,23 +45,41 @@ function updateValue(tickdur) {
 	for(var i = 0; i < data.counts.length; i++)
 		increment += data.counts[i] * data.increments[i]
 
-	console.log(increment)
+	increment *= data.prestige_mult
 
-	data.currency += increment * (tickdur / 1000) * data.prestige_mult
+	data.currency += increment * (tickdur / 1000)
 
 	document.getElementById("currency").innerText = appendSuffix(data.currency)
 	document.getElementById("income").innerText = "+" + appendSuffix(increment) + " / sec"
 }
 
-function buyUpgrade(index) {
-	if(data.costs[index] <= data.currency) {
-		data.counts[index]++
-		data.currency -= data.costs[index]
-		data.costs[index] *= data.mult
+function updateAll(tickdur) {
+	updateValue(tickdur)
 
-		var upg = document.getElementById("upgrades").childNodes[index]
-		upg.childNodes[2].innerText = data.counts[index]
-		upg.childNodes[4].innerText = appendSuffix(data.costs[index])
+	var prestige_adds = 0
+
+	for (var i = data.counts.length - 1; i >= 0; i--) {
+		prestige_adds += data.counts[i] * data.increments[i]
+
+		var cost = data.costs[i] * Math.pow(data.mult, data.counts[i])
+		var upg = document.getElementById("upgrades").childNodes[i]
+		upg.childNodes[2].innerText = data.counts[i]
+		upg.childNodes[4].innerText = appendSuffix(cost)
+	}
+
+	document.getElementById("prestige").innerText = data.prestige_mult
+	document.getElementById("adds").innerText = "+ " +  prestige_adds / 100
+
+}
+
+setInterval(() => updateAll(100), 100)
+
+function buyUpgrade(index) {
+	var cost = data.costs[index] * Math.pow(data.mult, data.counts[index])
+	if(cost <= data.currency) {
+		data.counts[index]++
+		data.currency -= cost
+		cost *= data.mult
 	}
 }
 
@@ -98,7 +116,15 @@ function appendUpgrade(index) {
 	document.getElementById("upgrades").appendChild(container)
 }
 
+function prestige() {
+	var prestige_adds = 0
+	for (var i = 0; i < data.counts.length; i++)
+		prestige_adds += data.counts[i] * data.increments[i]
+
+	data.prestige_mult += prestige_adds / 1e2
+	data.currency = 0
+	data.counts = [0, 0, 0, 0, 0, 0, 0, 0]
+}
+
 for(var i = 0; i < data.costs.length; i++)
 	appendUpgrade(i)
-
-setInterval(() => updateValue(100), 100)
