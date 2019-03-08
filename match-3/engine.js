@@ -45,6 +45,10 @@ function Tile(i, j, elem) {
 	this.elem = elem;
 	this.active = false;
 
+	this.isEmpty = function() {
+		return !this.elem;
+	}
+
 	this.reset_elem = function() {
 		this.elem_x = this.x;
 		this.elem_y = this.y;		
@@ -53,7 +57,8 @@ function Tile(i, j, elem) {
 	this.reset_elem();
 
 	this.draw_elem = function() {
-		this.elem.draw(this.elem_x, this.elem_y);
+		if(this.elem)
+			this.elem.draw(this.elem_x, this.elem_y);
 	}
 
 	this.draw = function(with_elem = true) {
@@ -62,7 +67,7 @@ function Tile(i, j, elem) {
     	ctx.lineWidth = 2;
     	ctx.strokeRect(this.x, this.y, consts.TileWidth, consts.TileHeight);
 
-    	if(this.elem && with_elem)
+    	if(with_elem)
 	    	this.draw_elem();
 	}
 
@@ -92,12 +97,19 @@ function Field(m, n) {
 	this.tiles = []
 	this.active = {i: -1, j: -1}
 
+	this.fill = function(i, j) {
+		var colIndex = getRandomInt(0, consts.colors.length);
+		var color = consts.colors[colIndex]
+		this.tiles[i][j] = new Tile(i, j, new Circle(color));	
+		this.tiles[i][j].draw();
+	}
+
 	for(var i = 0; i < m; i++) {
 		var row = [];
 		for(var j = 0; j < n; j++) {
 			var colIndex = getRandomInt(0, consts.colors.length);
-			var color = consts.colors[colIndex]
-			row.push(new Tile(i, j, new Circle(color)))
+			var color = consts.colors[colIndex];
+			row.push(new Tile(i, j, new Circle(color)));
 		}
 		this.tiles.push(row);
 	}
@@ -125,6 +137,22 @@ function Field(m, n) {
 	this.deactivate = function() {
 		if(this.active.i != -1 && this.active.j != -1) 
 			this.tiles[this.active.i][this.active.j].deactivate();
+	}
+
+	this.fall_all = function() {
+		var fall_col = function(f, c, r) {
+			for(var i = r + 1; i < n; i++) {
+				if(f.tiles[i][c].isEmpty()) {
+					f.fall(i, c);
+					setTimeout(fall_col, 300, f, c, i);
+					return;
+				}
+			}
+		}
+
+		for(var j = 0; j < n; j++) {
+			setTimeout(fall_col, 50, this, j, 0);
+		}
 	}
 
 	this.deleteCombos = function() {
@@ -188,28 +216,16 @@ function Field(m, n) {
 					combo.push({i: i, j: j});				
 				} else {
 					if(combo.length >= 3) {
-						var ind = find(combos, combo);
-						if(ind != -1) {
-							combos[ind] = merge(combos[ind], combo)
-						} else {
-							combos.push(combo);
-						}
+						combos.push(combo);
 					}
 					combo = [{i: i, j: j}];
 				}
 			}
 
 			if(combo.length >= 3) {
-				var ind = find(combos, combo);
-				if(ind != -1) {
-					combos[ind] = merge(combos[ind], combo)
-				} else {
-					combos.push(combo);
-				}
+				combos.push(combo);
 			}
 		}
-
-		console.log(combos);
 
 		for(var i = 0; i < combos.length; i++) {
 			for(var j = 0; j < combos[i].length; j++) {
@@ -217,6 +233,9 @@ function Field(m, n) {
 				this.tiles[c.i][c.j] = new Tile(c.i, c.j);
 			}
 		}
+
+		if(combos.length > 0)
+			this.fall_all();
 
 		this.draw();
 	}
@@ -249,7 +268,39 @@ function Field(m, n) {
 			setTimeout(swapAnimate, 50, f, t1, t2, c + 1);
 		}
 
-		swapAnimate(this, tile1, tile2);
+		setTimeout(swapAnimate, 50, this, tile1, tile2, 0);
+	}
+
+	this.fall = function(i, j) {
+		if(!this.tiles[i][j].isEmpty())
+			return;
+
+		var fallAnimate = function(f, i, j, c = 0) {
+			if(c != 5)
+				for(var k = i; k >= 0; k--)
+					f.tiles[k][j].draw(false);
+
+			for(var k = i - 1; k >= 0; k--) {
+				var dy = (f.tiles[k + 1][j].y - f.tiles[k][j].y) / 5;
+
+				if(c == 5) {
+					f.tiles[k + 1][j].swap(f.tiles[k][j]);
+					continue;
+				}
+
+				f.tiles[k][j].elem_y += dy;
+				f.tiles[k][j].draw_elem();
+			}
+
+			if(c == 5) {
+				f.fill(0, j);
+				return;
+			}
+
+			setTimeout(fallAnimate, 50, f, i, j, c + 1);
+		}
+
+		setTimeout(fallAnimate, 50, this, i, j, 0);
 	}
 
 	this.click = function(x, y) {
@@ -269,8 +320,7 @@ function Field(m, n) {
 		this.deleteCombos();
 	}
 
-	this.keypress = function(key) {
-	}
+	this.keypress = function(key) {}
 }
 
 function getRandomInt(min, max) {
@@ -281,6 +331,8 @@ var f = new Field(10, 10);
 
 function draw() {
 	f.deleteCombos();
+	
+	// setTimeout(draw, 100);
 }
 
 canvas.addEventListener('click', function(e) {
