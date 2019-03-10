@@ -12,6 +12,9 @@ function update(dt) {
 }
 
 function render() {
+    // ctx.fillStyle = terrainPattern;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 	f.render(ctx);
 }
 
@@ -25,14 +28,18 @@ function main() {
 
     lastTime = now;
     requestAnimationFrame(main);
-};
+}
 
+var terrainPattern;
 function init() {
+	// terrainPattern = ctx.createPattern(resources.get('images/spriteBorder.png'), 'repeat');
+
     lastTime = Date.now();
     main();
 }
 
 resources.load([
-	"images/sprites.png"
+	'images/sprites.png',
+	'images/spriteBorder.png'
 ]);
 resources.onReady(init);
