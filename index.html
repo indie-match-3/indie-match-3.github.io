@@ -1,23 +1,14 @@
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" type="text/css" href="style.css">
-<head>
-	<title>RAM omnomnom</title>
-</head>
-<body>
-	<div id="autosave_panel" style="display:none">
-		Autosaved
-	</div>
-	<div class="prestige_panel">
-		<div class="prestige_current" id="prestige">1</div>
-		<div class="prestige_adds" id="adds">+ 0</div>
-		<div class="prestige_button" onclick="prestige()">Prestige</div>
-	</div>
-	<div class="currency_panel">
-		<div id="currency">0</div>
-		<div id="income">+0</div>
-	</div>
-	<div id="upgrades"></div>
-	<script type="text/javascript" src="script.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Match-3 game</title>
+    <style type="text/css">
+      canvas { border: 1px solid black; }
+    </style>
+  </head>
+  <body onload="draw();">
+    <canvas id="canvas" width="422" height="422">kek</canvas>
+    <script type="text/javascript" src="engine.js"></script>
+  </body>
 </html>

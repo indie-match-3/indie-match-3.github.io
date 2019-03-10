@@ -1,1 +1,0 @@
-# qwertymol.github.io

@@ -2,12 +2,17 @@ var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
 var consts = {
+	WidthScale: canvas.width / 422,
+	HeightScale: canvas.height / 422,
+
 	TileWidth: 40,
 	TileHeight: 40,
 	WidthBlocks: 10,
 	HeightBlocks: 10,
 	FieldWidth: this.TileWidth * this.WidthBlocks,
 	FieldHeight: this.TileHeight * this.HeightBlocks,
+	FallSpeed: 50,
+	SwapSpeed: 50,
 
 	colors: [
 		"#FF0000", // red
@@ -19,6 +24,8 @@ var consts = {
 	]
 }
 
+ctx.scale(consts.WidthScale, consts.HeightScale);
+
 function Circle(color) {
 	this.color = color;
 	this.offsetX = consts.TileWidth / 2;
@@ -28,6 +35,7 @@ function Circle(color) {
 	this.draw = function(x, y) {
 		ctx.beginPath();
 		ctx.arc(x + this.offsetX, y + this.offsetY, this.radius, 0, Math.PI * 2, true);
+
 		ctx.closePath();
 		ctx.fillStyle = this.color;
 		ctx.fill();
@@ -144,14 +152,14 @@ function Field(m, n) {
 			for(var i = r + 1; i < n; i++) {
 				if(f.tiles[i][c].isEmpty()) {
 					f.fall(i, c);
-					setTimeout(fall_col, 300, f, c, i);
+					setTimeout(fall_col, consts.FallSpeed * 6, f, c, i);
 					return;
 				}
 			}
 		}
 
 		for(var j = 0; j < n; j++) {
-			setTimeout(fall_col, 50, this, j, 0);
+			setTimeout(fall_col, consts.FallSpeed, this, j, 0);
 		}
 	}
 
@@ -234,9 +242,6 @@ function Field(m, n) {
 			}
 		}
 
-		if(combos.length > 0)
-			this.fall_all();
-
 		this.draw();
 	}
 
@@ -265,10 +270,10 @@ function Field(m, n) {
 			t1.draw_elem();
 			t2.draw_elem();
 
-			setTimeout(swapAnimate, 50, f, t1, t2, c + 1);
+			setTimeout(swapAnimate, consts.SwapSpeed, f, t1, t2, c + 1);
 		}
 
-		setTimeout(swapAnimate, 50, this, tile1, tile2, 0);
+		setTimeout(swapAnimate, consts.SwapSpeed, this, tile1, tile2, 0);
 	}
 
 	this.fall = function(i, j) {
@@ -336,7 +341,7 @@ function draw() {
 }
 
 canvas.addEventListener('click', function(e) {
-	f.click(e.layerX, e.layerY);
+	f.click(e.layerX / consts.WidthScale, e.layerY / consts.HeightScale);
 });
 
 document.addEventListener('keydown', function(e) {
