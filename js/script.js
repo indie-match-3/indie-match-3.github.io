@@ -1,12 +1,18 @@
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
+var f = new Field(10, 10);
 
-function update(timeDelta) {
+function handleMouse(dt) {
 
 }
 
-function render() {
+function update(dt) {
+	handleMouse(dt);
+	f.update(dt);
+}
 
+function render() {
+	f.render(ctx);
 }
 
 var lastTime;
@@ -18,7 +24,7 @@ function main() {
     render();
 
     lastTime = now;
-    requestAnimFrame(main);
+    requestAnimationFrame(main);
 };
 
 function init() {
@@ -27,7 +33,6 @@ function init() {
 }
 
 resources.load([
-    // 'img/sprites.png',
-    // 'img/terrain.png'
+	"images/sprites.png"
 ]);
 resources.onReady(init);
