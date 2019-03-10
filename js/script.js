@@ -2,18 +2,19 @@ var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var f = new Field(10, 10);
 
-function handleMouse(dt) {
-
+function onClick(e) {
+	f.click([e.layerX, e.layerY]);
+	// console.log(e);
 }
 
 function update(dt) {
-	handleMouse(dt);
 	f.update(dt);
 }
 
 function render() {
-    // ctx.fillStyle = terrainPattern;
+    ctx.fillStyle = terrainPattern;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	f.render(ctx);
 }
@@ -32,7 +33,9 @@ function main() {
 
 var terrainPattern;
 function init() {
-	// terrainPattern = ctx.createPattern(resources.get('images/spriteBorder.png'), 'repeat');
+	terrainPattern = ctx.createPattern(resources.get('images/spriteBorderPassive.png'), 'repeat');
+
+	canvas.addEventListener("click", onClick, false);
 
     lastTime = Date.now();
     main();
@@ -40,6 +43,7 @@ function init() {
 
 resources.load([
 	'images/sprites.png',
-	'images/spriteBorder.png'
+	'images/spriteBorderPassive.png',
+	'images/spriteBorderActive.png'
 ]);
 resources.onReady(init);

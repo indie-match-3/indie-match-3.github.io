@@ -22,7 +22,7 @@ function isOutOfBound(pos, dpos, dest) {
 function Field(m, n) {
 	this.tiles = []
 	this.swaps = null;
-	this.swap_time;
+	this.activePos = null;
 	
 	for(var i = 0; i < m; i++) {
 		for(var j = 0; j < n; j++) {
@@ -41,13 +41,22 @@ function Field(m, n) {
 
 
 	this.render = function(ctx) {
+		if(this.activePos) {
+			var ent = {
+				pos: [this.activePos[1] * (consts.TileWidth + 4), this.activePos[0] * (consts.TileHeight + 4)],
+				sprite: new Sprite("images/spriteBorderActive.png", [0, 0], [44, 44])
+			};
+
+			// console.log(this.activePos, ent);
+
+			renderEntity(ctx, ent);
+		}
+
 		renderEntities(ctx, this.tiles);
 	}
 
 	this.swap = function(pos1, pos2) {
 		if(distance(pos1, pos2) == 1 && !this.swaps) {
-			console.log(pos1, pos2);
-
 			var t1 = this.tiles[this.posToIdx(pos1)], t2 = this.tiles[this.posToIdx(pos2)];
 
 			this.swaps = {
@@ -62,9 +71,22 @@ function Field(m, n) {
 
 				speed: 5,
 			}
-
-			console.log(this.swaps);
 		}
+	}
+
+	this.click = function(pos) {
+		var i = Math.floor((pos[1] - 2) / (consts.TileWidth + 4)),
+			j = Math.floor((pos[0] - 2) / (consts.TileHeight + 4));
+
+		console.log(this.activePos, [i, j], this.swaps)
+
+		if(!this.activePos || distance(this.activePos, [i, j]) > 1) {
+			this.activePos = [i, j];
+		} else {
+			this.swap(this.activePos, [i, j]);
+			this.activePos = null;
+		}
+
 	}
 
 	this.update = function(dt) {
@@ -82,8 +104,12 @@ function Field(m, n) {
 				tile1.pos = this.swaps.dest1;
 				tile2.pos = this.swaps.dest2;
 
-				[tile1, tile2] = [tile2, tile1];
+				// var t = this.tiles[this.swaps.t1];
+				// this.tiles[this.swaps.t1] = this.tiles[this.swaps.t2];
+				// this.tiles[this.swaps.t2] = t;
+				[this.tiles[i1], this.tiles[i2]] = [this.tiles[i2], this.tiles[i1]]
 				this.swaps = null;
+				// [tile1.sprite, tile2.sprite] = [tile2.sprite, tile1.sprite];
 			}
 		}
 	}
