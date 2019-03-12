@@ -64,7 +64,7 @@ function Field(m, n, max_rand) {
 		for(var i = 0; i < m; i++) {
 			var buf = new Combo();
 			for(var j = 0; j < n; j++) {
-				if(buf.points.length == 0 || this.getElemBy(buf.getLast()) == this.elems[i][j]) {
+				if(buf.points.length == 0 || this.getElemBy(buf.getLast()) == this.elems[i][j] && this.elems[i][j] != -1) {
 					buf.points.push(new Point(i, j));
 					continue;
 				} else if(buf.points.length >= 3) {
@@ -87,7 +87,7 @@ function Field(m, n, max_rand) {
 		for(var j = 0; j < n; j++) {
 			var buf = new Combo();
 			for(var i = 0; i < m; i++) {
-				if(buf.points.length == 0 || this.getElemBy(buf.getLast()) == this.elems[i][j]) {
+				if(buf.points.length == 0 || this.getElemBy(buf.getLast()) == this.elems[i][j] && this.elems[i][j] != -1) {
 					buf.points.push(new Point(i, j));
 					continue;
 				} else if(buf.points.length >= 3) {

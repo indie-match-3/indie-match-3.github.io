@@ -4,7 +4,7 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 
 	var active = false;
 	var tasks = [];
-	var fall_speed = 100;
+	var fall_speed = 160;
 
 	function distance(p1, p2) {
 		return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
