@@ -5,3 +5,10 @@
     width: 422px;
     margin: 0 auto;
 }
+.containerFild{
+    height: Calc(100vh - 20px); /* сделать более гибким */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../images/background1.png);
+}
