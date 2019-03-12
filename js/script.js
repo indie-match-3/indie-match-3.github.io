@@ -1,18 +1,23 @@
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
-var f = new FieldGraphic(10, 10, 6, 'images/sprites.png');
+var f = new FieldGraphic(10, 10, 6, 'images/sprites.png', 'images/spriteBorderActive.png');
+var frames = 0, timePassed = 0;
 
 function onMouseDown(e) {
-	// f.mDown([e.layerX, e.layerY]);
+	f.mDown(new Point(e.layerX, e.layerY));
 	// console.log(e);
 }
 
 function onMouseUp(e) {
-	// f.mUp([e.layerX, e.layerY]);
+	f.mUp(new Point(e.layerX, e.layerY));
 	// console.log(e);
 }
 
 function update(dt) {
+	frames++;
+	timePassed += dt;
+	document.getElementById('fps-counter').innerHTML = Math.floor(frames / timePassed) + "fps";
+
 	f.update(dt);
 }
 

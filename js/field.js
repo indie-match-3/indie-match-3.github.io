@@ -2,34 +2,39 @@ function getRandomInt(max) {
 	return Math.floor(Math.random() * max);
 }
 
+function Point(x, y) {
+	this.x = x;
+	this.y = y;
+}
+
+function PointPair(p1, p2) {
+	this.p1 = p1;
+	this.p2 = p2;
+}
+
+function Combo() {
+	this.points = [];
+
+	this.getLast = function() {
+		if(this.points.length > 0) {
+			return this.points[this.points.length - 1];
+		}
+	}
+
+	this.contains = function(point) {
+		return this.points.find(p => (p.x == point.x && p.y == point.y)) && true || false;
+	}
+
+	this.intersects = function(combo) {
+		return this.points.some(p => combo.contains(p));
+	}
+
+	this.merge = function(combo) {
+		this.points = this.points.concat(combo.points.filter(p => !this.contains(p)));
+	}
+}
+
 function Field(m, n, max_rand) {
-	function Point(x, y) {
-		this.x = x;
-		this.y = y;
-	}
-
-	function Combo() {
-		this.points = [];
-
-		this.getLast = function() {
-			if(this.points.length > 0) {
-				return this.points[this.points.length - 1];
-			}
-		}
-
-		this.contains = function(point) {
-			return this.points.find(p => (p.x == point.x && p.y == point.y)) && true || false;
-		}
-
-		this.intersects = function(combo) {
-			return this.points.some(p => combo.contains(p));
-		}
-
-		this.merge = function(combo) {
-			this.points = this.points.concat(combo.points.filter(p => !this.contains(p)));
-		}
-	}
-
 	this.elems = [];
 	this.makeRandom = function() {
 		this.elems = [];
@@ -128,5 +133,13 @@ function Field(m, n, max_rand) {
 
 	this.containsRemovables = function() {
 		return this.getRemovables().length != 0;
+	}
+
+	this.getPotentials = function() {
+		for(var i = 0; i < m; i++) {
+			for(var j = 0; j < n; j++) {
+				
+			}
+		}
 	}
 }
