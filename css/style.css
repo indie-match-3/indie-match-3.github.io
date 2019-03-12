@@ -1,3 +1,7 @@
+*{
+    margin: 0;
+    padding: 0;
+}
 .canvas{
     border: 1px solid black;
 }
@@ -6,9 +10,15 @@
     margin: 0 auto;
 }
 .containerFild{
-    height: Calc(100vh - 20px); /* сделать более гибким */
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     background-image: url(../images/background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#fps-counter{
+    color: #fff;
 }
