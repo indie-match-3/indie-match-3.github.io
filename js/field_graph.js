@@ -4,7 +4,7 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 
 	var active = false;
 	var tasks = [];
-	var fall_speed = 10;
+	var fall_speed = 100;
 
 	function distance(p1, p2) {
 		return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
@@ -14,7 +14,7 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 		return move(p1, p2, -1);
 	}
 
-	function move(p, dp, k) {
+	function move(p, dp, k = 1) {
 		return new Point(p.x + dp.x * k, p.y + dp.y * k);
 	}
 
@@ -79,7 +79,45 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 	this.mDown = function(p) {
 	}
 
+	this.fall = function() {
+		for(var j = 0; j < n; j++) {
+			var count = 0;
+			for(var i = m - 1; i >= 0; i--) {
+				if(this.field.elems[i][j] == -1) {
+					count++;
+					continue;
+				}
+
+				console.log(count);
+
+				if(count > 0) {
+					var val = this.field.elems[i][j];
+					var sp = new Sprite(sp_file, [40 * val, 0], [40, 40]);
+					this.field.elems[i][j] = -1;
+
+					var pxy = new Point(2 + j * (consts.TileHeight + 4), 2 + i * (consts.TileWidth + 4));
+
+					tasks.push({
+						type: "fall",
+						elem: {
+							pos: pxy,
+							start_pos: pxy,
+							value: val,
+							sprite: sp,
+							to_point: move(pxy, new Point(0, consts.TileWidth), count),
+							to_idx_point: new Point(i + count, j),
+						}						
+					})
+				}
+			}
+		}
+	}
+
 	this.update = function(dt) {
+		if(tasks.length == 0) {
+			this.removeCombos();
+		}
+
 		for(var i = 0; i < tasks.length; i++) {
 			var t = tasks[i];
 
@@ -99,10 +137,40 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 						this.field.setElemBy(t.elem.to_idx_point, t.elem.value);
 						this.field.setElemBy(t.oth_elem.to_idx_point, t.oth_elem.value);
 
+						this.removeCombos();
+						tasks.splice(i, 1);
+
+					}
+				}
+				break
+				case "fall": {
+					var s1 = sign(razn(t.elem.to_point, t.elem.start_pos));
+
+					t.elem.pos = move(t.elem.pos, s1, fall_speed * dt);
+
+					if(!inRange(t.elem.start_pos, t.elem.to_point, t.elem.pos)) {
+						t.elem.pos = t.elem.to_point;
+
+						this.field.setElemBy(t.elem.to_idx_point, t.elem.value);
+
 						tasks.splice(i, 1);
 					}
 				}
 			}
+		}
+	}
+
+	this.removeCombos = function() {
+		var cmbs = this.field.getRemovables();
+		for(var i = 0; i < cmbs.length; i++) {
+			for(var j = 0; j < cmbs[i].points.length; j++) {
+				this.field.setElemBy(cmbs[i].points[j], -1);
+			}
+		}
+
+		if(cmbs.length) {
+			this.fall();
+			// this.removeCombos();
 		}
 	}
 
@@ -133,6 +201,10 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 				case "swap": {
 					renderEntity(ctx, t.elem);
 					renderEntity(ctx, t.oth_elem);
+				}
+				break
+				case "fall": {
+					renderEntity(ctx, t.elem);
 				}
 			}
 		}
