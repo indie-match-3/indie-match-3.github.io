@@ -1,9 +1,14 @@
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
-var f = new Field(10, 10);
+var f = new FieldGraphic(10, 10, 6, 'images/sprites.png');
 
-function onClick(e) {
-	f.click([e.layerX, e.layerY]);
+function onMouseDown(e) {
+	// f.mDown([e.layerX, e.layerY]);
+	// console.log(e);
+}
+
+function onMouseUp(e) {
+	// f.mUp([e.layerX, e.layerY]);
 	// console.log(e);
 }
 
@@ -35,9 +40,12 @@ var terrainPattern;
 function init() {
 	terrainPattern = ctx.createPattern(resources.get('images/spriteBorderPassive.png'), 'repeat');
 
-	canvas.addEventListener("click", onClick, false);
+	canvas.addEventListener("mousedown", onMouseDown, false);
+	canvas.addEventListener("mouseup", onMouseUp, false);
 
     lastTime = Date.now();
+	
+
     main();
 }
 
