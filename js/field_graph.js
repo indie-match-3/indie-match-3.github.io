@@ -1,10 +1,11 @@
 function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 	this.field = new Field(m, n, max_rand);
 	this.field.makeRandom()
+	this.scores = 0;
 
 	var active = false;
 	var tasks = [];
-	var fall_speed = 160;
+	var fall_speed = 250;
 
 	function distance(p1, p2) {
 		return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
@@ -105,8 +106,6 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 					continue;
 				}
 
-				console.log(count);
-
 				if(count > 0) {
 					var val = this.field.elems[i][j];
 					this.field.elems[i][j] = -1;
@@ -148,7 +147,6 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 
 						this.removeCombos();
 						tasks.splice(i, 1);
-
 					}
 				}
 				break
@@ -175,6 +173,9 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 			for(var j = 0; j < cmbs[i].points.length; j++) {
 				this.field.setElemBy(cmbs[i].points[j], -1);
 			}
+			this.scores = Math.floor(this.scores + cmbs[i].points.length * 100);
+
+			console.clear();
 		}
 
 		if(cmbs.length) {

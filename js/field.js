@@ -78,7 +78,7 @@ function Field(m, n, max_rand) {
 				res.push(buf);
 			}
 		}
-
+		
 		return res;
 	}
 
@@ -113,11 +113,11 @@ function Field(m, n, max_rand) {
 		}
 
 		var res = c1;
-		for(var i = 0; i < c2 ? c2.length : 0; i++) {
+		for(var i = 0; i < c2.length; i++) {
 			var merged = false;
 			for(var j = 0; j < res.length; j++) {
 				if(res[j].intersects(c2[i])) {
-					res[j] = res[j].merge(c2[i]);
+					res[j].merge(c2[i]);
 					merged = true;
 				}
 			}

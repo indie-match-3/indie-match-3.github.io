@@ -26,6 +26,8 @@ function render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    document.getElementById('scores').innerHTML = "Scores: " + f.scores;
+
 	f.render(ctx);
 }
 
