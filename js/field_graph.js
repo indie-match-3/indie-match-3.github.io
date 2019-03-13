@@ -79,6 +79,23 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 	this.mDown = function(p) {
 	}
 
+	function push_fall(p, val, count, _this) {
+		var sp = new Sprite(sp_file, [40 * val, 0], [40, 40]);
+		var pxy = new Point(2 + p.y * (consts.TileHeight + 4), 2 + p.x * (consts.TileWidth + 4));
+
+		tasks.push({
+			type: "fall",
+			elem: {
+				pos: pxy,
+				start_pos: pxy,
+				value: val,
+				sprite: sp,
+				to_point: move(pxy, new Point(0, consts.TileWidth), count),
+				to_idx_point: new Point(p.x + count, p.y),
+			}						
+		})
+	}
+
 	this.fall = function() {
 		for(var j = 0; j < n; j++) {
 			var count = 0;
@@ -92,22 +109,14 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 
 				if(count > 0) {
 					var val = this.field.elems[i][j];
-					var sp = new Sprite(sp_file, [40 * val, 0], [40, 40]);
 					this.field.elems[i][j] = -1;
+					push_fall(new Point(i, j), val, count, this);
+				}
+			}
 
-					var pxy = new Point(2 + j * (consts.TileHeight + 4), 2 + i * (consts.TileWidth + 4));
-
-					tasks.push({
-						type: "fall",
-						elem: {
-							pos: pxy,
-							start_pos: pxy,
-							value: val,
-							sprite: sp,
-							to_point: move(pxy, new Point(0, consts.TileWidth), count),
-							to_idx_point: new Point(i + count, j),
-						}						
-					})
+			if(count > 0) {
+				for(var i = count - 1; i >= 0; i--) {
+					push_fall(new Point(i - count, j), getRandomInt(max_rand), count, this);
 				}
 			}
 		}
