@@ -107,7 +107,7 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 	this.update = function(dt) {
 		if(tasks.length == 0) {
 			this.removeCombos();
-			return;
+			// return;
 		}
 
 		for(var i = 0; i < tasks.length; i++) {
