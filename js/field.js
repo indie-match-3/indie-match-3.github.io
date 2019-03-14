@@ -2,38 +2,6 @@ function getRandomInt(max) {
 	return Math.floor(Math.random() * max);
 }
 
-function Point(x, y) {
-	this.x = x;
-	this.y = y;
-}
-
-function PointPair(p1, p2) {
-	this.p1 = p1;
-	this.p2 = p2;
-}
-
-function Combo() {
-	this.points = [];
-
-	this.getLast = function() {
-		if(this.points.length > 0) {
-			return this.points[this.points.length - 1];
-		}
-	}
-
-	this.contains = function(point) {
-		return this.points.find(p => (p.x == point.x && p.y == point.y)) && true || false;
-	}
-
-	this.intersects = function(combo) {
-		return this.points.some(p => combo.contains(p));
-	}
-
-	this.merge = function(combo) {
-		this.points = this.points.concat(combo.points.filter(p => !this.contains(p)));
-	}
-}
-
 function Field(m, n, max_rand) {
 	this.elems = [];
 	this.makeRandom = function() {
@@ -135,11 +103,44 @@ function Field(m, n, max_rand) {
 		return this.getRemovables().length != 0;
 	}
 
-	this.getPotentials = function() {
-		for(var i = 0; i < m; i++) {
-			for(var j = 0; j < n; j++) {
-				
+	function checkPattern(p, pat, field) {
+		if((p.x + pat.length) > n || (p.y + pat[0].length) > m) 
+			return false;
+
+		var elem = -1;
+
+		for(var i = 0; i < pat.length; i++) {
+			for(var j = 0; j < pat[i].length; j++) {
+				if(pat[i][j] == 1 && (field[i + p.x][j + p.y] == elem || elem == -1)) {
+					elem = field[i + p.x][j + p.y]
+				} else if(pat[i][j] == 1) {
+					return false;
+				}
 			}
 		}
+
+		return true;
+	}
+
+	this.getPotentials = function() {
+		var res = [];
+
+		for(var i = 0; i < m; i++) {
+			for(var j = 0; j < n; j++) {
+				for(var k = 0; k < PatternsList.length; k++) {
+					var p = PatternsList[k];
+					var curr = new Point(i, j);
+					if(checkPattern(curr, p.pat, this.elems)) {
+						res.push(new PointPair(move(p.points.p1, curr), move(p.points.p2, curr)))
+					}
+				}
+			}
+		}
+
+		return res;
+	}
+
+	this.checkAction = function(potentials, pp) {
+		return potentials.some(pot => pot.equal(pp));
 	}
 }

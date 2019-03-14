@@ -5,30 +5,9 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 
 	var active = false;
 	var tasks = [];
-	var fall_speed = 250;
+	var fall_speed = 200;
 
-	function distance(p1, p2) {
-		return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
-	}
-
-	function razn(p1, p2) {
-		return move(p1, p2, -1);
-	}
-
-	function move(p, dp, k = 1) {
-		return new Point(p.x + dp.x * k, p.y + dp.y * k);
-	}
-
-	function sign(p) {
-		return new Point(Math.sign(p.x), Math.sign(p.y))
-	}
-
-	function inRange(a, b, p) {
-		return ((a.x >= b.x && a.x >= p.x && p.x >= b.x) || (a.x <= b.x && a.x <= p.x && p.x <= b.x)) &&
-			   ((a.y >= b.y && a.y >= p.y && p.y >= b.y) || (a.y <= b.y && a.y <= p.y && p.y <= b.y))
-	}
-
-	this.swap = function(p1, p2) {
+	this.swap = function(p1, p2, backward = false) {
 		var val1 = this.field.elems[p1.x][p1.y];
 		var val2 = this.field.elems[p2.x][p2.y];
 
@@ -60,16 +39,20 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 				to_point: pxy1,
 				to_idx_point: p1,
 			},
+
+			backward: backward,
 		})
 	}
 
 	this.mUp = function(p) {	
 		var i = Math.floor((p.y - 2) / (consts.TileWidth + 4)),
 			j = Math.floor((p.x - 2) / (consts.TileHeight + 4));
+		var curr = new Point(i, j);
+
 		
-		if(this.active && this.active.x == i && this.active.y == j) {
+		if(this.active && this.active.equal(curr)) {
 			this.active = false;
-		} else if(this.active && distance(this.active, new Point(i, j)) == 1) {
+		} else if(this.active && distance(this.active, curr) == 1) {
 			this.swap(this.active, new Point(i, j));
 			this.active = false;
 		}else {
@@ -124,6 +107,7 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 	this.update = function(dt) {
 		if(tasks.length == 0) {
 			this.removeCombos();
+			return;
 		}
 
 		for(var i = 0; i < tasks.length; i++) {
@@ -139,14 +123,22 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 
 					if(!inRange(t.elem.start_pos, t.elem.to_point, t.elem.pos) && 
 						!inRange(t.oth_elem.start_pos, t.oth_elem.to_point, t.oth_elem.pos)) {
+
 						t.elem.pos = t.elem.to_point;
 						t.oth_elem.pos = t.oth_elem.to_point;
+						
 
 						this.field.setElemBy(t.elem.to_idx_point, t.elem.value);
 						this.field.setElemBy(t.oth_elem.to_idx_point, t.oth_elem.value);
 
 						this.removeCombos();
 						tasks.splice(i, 1);
+
+						if(!this.field.checkAction(this.field.getPotentials(), 
+								new PointPair(t.elem.to_idx_point, t.oth_elem.to_idx_point)) &&
+							!t.backward) {
+							this.swap(t.oth_elem.to_idx_point, t.elem.to_idx_point, true)
+						}
 					}
 				}
 				break
@@ -180,11 +172,12 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 
 		if(cmbs.length) {
 			this.fall();
-			// this.removeCombos();
 		}
 	}
 
 	this.render = function(ctx) {
+		// if(tasks.length == 0) return;
+
 		if(this.active) {
 			renderEntity(ctx, {
 					pos: new Point(this.active.y * (consts.TileWidth + 4), this.active.x * (consts.TileHeight + 4)),
