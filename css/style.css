@@ -10,17 +10,17 @@
     margin: 0 auto;
 }
 .containerFild{
-    height: 97vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    /*background-image: url(../images/background.png);*/
+    background-image: url(../images/background.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
 #fps-counter{
-    /*color: #fff;*/
+    color: #fff;
 }
 #scores{
     text-align: center;
