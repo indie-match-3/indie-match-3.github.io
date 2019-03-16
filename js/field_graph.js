@@ -15,11 +15,17 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 		var sp1 = new Sprite(sp_file, [40 * val1, 0], [40, 40]);
 		var sp2 = new Sprite(sp_file, [40 * val2, 0], [40, 40]);
 
+		var pots = this.field.getPotentials();
 		this.field.elems[p1.x][p1.y] = -1;
 		this.field.elems[p2.x][p2.y] = -1;
 
 		var pxy1 = new Point(2 + p1.y * (consts.TileHeight + 4), 2 + p1.x * (consts.TileWidth + 4));
 		var pxy2 = new Point(2 + p2.y * (consts.TileHeight + 4), 2 + p2.x * (consts.TileWidth + 4));
+
+		var allowed = this.field.checkAction(pots, new PointPair(p2, p1)) || backward;
+		console.log("swap allowed? " + allowed)
+		console.log(new PointPair(p2, p1))
+		console.log(pots)
 
 		tasks.push({
 			type: "swap",
@@ -41,7 +47,7 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 				to_idx_point: p1,
 			},
 
-			allowed: this.field.checkAction(this.field.getPotentials(), new PointPair(p2, p1)),
+			allowed: allowed,
 			backward: backward,
 		})
 	}
