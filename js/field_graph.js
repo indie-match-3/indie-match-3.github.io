@@ -50,17 +50,20 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 		var curr = new Point(i, j);
 
 		
-		if(this.active && this.active.equal(curr)) {
+		if(this.active && distance(this.active, curr) == 1) {
+			this.swap(this.active, curr);
 			this.active = false;
-		} else if(this.active && distance(this.active, curr) == 1) {
-			this.swap(this.active, new Point(i, j));
-			this.active = false;
-		}else {
-			this.active = new Point(i, j);			
 		}
 	}
 
 	this.mDown = function(p) {
+		var i = Math.floor((p.y - 2) / (consts.TileWidth + 4)),
+			j = Math.floor((p.x - 2) / (consts.TileHeight + 4));
+		var curr = new Point(i, j);
+
+		if(!this.active) {
+			this.active = curr;		
+		}
 	}
 
 	function push_fall(p, val, count, _this) {
@@ -107,7 +110,6 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 	this.update = function(dt) {
 		if(tasks.length == 0) {
 			this.removeCombos();
-			// return;
 		}
 
 		for(var i = 0; i < tasks.length; i++) {
@@ -176,8 +178,6 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 	}
 
 	this.render = function(ctx) {
-		// if(tasks.length == 0) return;
-
 		if(this.active) {
 			renderEntity(ctx, {
 					pos: new Point(this.active.y * (consts.TileWidth + 4), this.active.x * (consts.TileHeight + 4)),

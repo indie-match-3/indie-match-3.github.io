@@ -1,5 +1,5 @@
 function renderEntities(ctx, list) {
-    for(var i=0; i<list.length; i++) {
+    for(var i = 0; i < list.length; i++) {
         renderEntity(ctx, list[i]);
     }    
 }

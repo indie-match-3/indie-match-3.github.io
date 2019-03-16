@@ -5,15 +5,18 @@ var frames = 0, timePassed = 0;
 
 function onMouseDown(e) {
 	f.mDown(new Point(e.layerX, e.layerY));
-	// console.log(e);
 }
 
 function onMouseUp(e) {
 	f.mUp(new Point(e.layerX, e.layerY));
-	// console.log(e);
 }
 
 function update(dt) {
+	if(frames == 100) {
+		timePassed *= 0.9;
+		frames -= 10;
+	}
+
 	frames++;
 	timePassed += dt;
 	document.getElementById('fps-counter').innerHTML = Math.floor(frames / timePassed) + "fps";
@@ -51,7 +54,6 @@ function init() {
 	canvas.addEventListener("mouseup", onMouseUp, false);
 
     lastTime = Date.now();
-	
 
     main();
 }
