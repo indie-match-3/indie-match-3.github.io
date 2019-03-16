@@ -1,6 +1,6 @@
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
-var f = new FieldGraphic(10, 10, 6, 'images/sprites.png', 'images/spriteBorderActive.png');
+var f = new FieldGraphic(10, 10, 7, 'images/sprites.png', 'images/spriteBorderActive.png');
 var frames = 0, timePassed = 0;
 
 function onMouseDown(e) {

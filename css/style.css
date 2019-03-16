@@ -9,19 +9,27 @@
     width: 422px;
     margin: 0 auto;
 }
-.containerFild{
-    height: 97vh;
+.containerField{
+    height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
-    /*background-image: url(../images/background.png);*/
+    background-image: url(../images/background.png);
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: top;
 }
-#fps-counter{
-    /*color: #fff;*/
+.statPanel{
+    background: yellow;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 30%;
 }
+#fps-counter,
 #scores{
-    text-align: center;
+    color: #000;
 }
+
+   
