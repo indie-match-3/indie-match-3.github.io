@@ -6,7 +6,7 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 
 	var active = false;
 	var tasks = [];
-	var fall_speed = 200;
+	var fall_speed = 250;
 
 	this.swap = function(p1, p2, backward = false) {
 		var val1 = this.field.elems[p1.x][p1.y];
@@ -53,24 +53,31 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 	}
 
 	this.mUp = function(p) {	
-		var i = Math.floor((p.y - 2) / (consts.TileWidth + 4)),
-			j = Math.floor((p.x - 2) / (consts.TileHeight + 4));
-		var curr = new Point(i, j);
-
-		
-		if(this.active && distance(this.active, curr) == 1) {
-			this.swap(this.active, curr);
-			this.active = false;
-		}
+		this.pressed = false;
 	}
 
 	this.mDown = function(p) {
 		var i = Math.floor((p.y - 2) / (consts.TileWidth + 4)),
 			j = Math.floor((p.x - 2) / (consts.TileHeight + 4));
 		var curr = new Point(i, j);
+		this.pressed = true;
 
 		if(!this.active || this.active && distance(this.active, curr) > 1) {
 			this.active = curr;		
+		} else if(this.active && distance(this.active, curr) == 1) {
+			this.swap(this.active, curr);
+			this.active = false;
+		}
+	}
+
+	this.mMove = function(p) {
+		var i = Math.floor((p.y - 2) / (consts.TileWidth + 4)),
+			j = Math.floor((p.x - 2) / (consts.TileHeight + 4));
+		var curr = new Point(i, j);
+
+		if(this.pressed && distance(this.active, curr) == 1) {
+			this.swap(this.active, curr);
+			this.active = false;
 		}
 	}
 

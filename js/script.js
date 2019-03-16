@@ -11,6 +11,10 @@ function onMouseUp(e) {
 	f.mUp(new Point(e.layerX, e.layerY));
 }
 
+function onMouseMove(e) {
+	f.mMove(new Point(e.layerX, e.layerY));
+}
+
 function update(dt) {
 	if(frames == 100) {
 		timePassed *= 0.9;
@@ -52,6 +56,7 @@ function init() {
 
 	canvas.addEventListener("mousedown", onMouseDown, false);
 	canvas.addEventListener("mouseup", onMouseUp, false);
+	canvas.addEventListener("mousemove", onMouseMove, false);
 
     lastTime = Date.now();
 
