@@ -19,6 +19,14 @@ function Field(m, n, max_rand) {
 		}
 	}
 
+	this.makeCustom = function() {
+		this.elems = [
+			[1, 1, 0],
+			[2, 2, 1],
+			[0, 0, 1],
+		]
+	}
+
 	this.getElemBy = function(p) {
 		return this.elems[p.x][p.y];
 	}

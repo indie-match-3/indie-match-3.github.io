@@ -1,6 +1,7 @@
 function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 	this.field = new Field(m, n, max_rand);
 	this.field.makeRandom()
+	// this.field.makeCustom()
 	this.scores = 0;
 
 	var active = false;
@@ -40,6 +41,7 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 				to_idx_point: p1,
 			},
 
+			allowed: this.field.checkAction(this.field.getPotentials(), new PointPair(p2, p1)),
 			backward: backward,
 		})
 	}
@@ -136,9 +138,7 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 						this.removeCombos();
 						tasks.splice(i, 1);
 
-						if(!this.field.checkAction(this.field.getPotentials(), 
-								new PointPair(t.elem.to_idx_point, t.oth_elem.to_idx_point)) &&
-							!t.backward) {
+						if(!t.allowed && !t.backward) {
 							this.swap(t.oth_elem.to_idx_point, t.elem.to_idx_point, true)
 						}
 					}
@@ -168,8 +168,6 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 				this.field.setElemBy(cmbs[i].points[j], -1);
 			}
 			this.scores = Math.floor(this.scores + cmbs[i].points.length * 100);
-
-			console.clear();
 		}
 
 		if(cmbs.length) {
