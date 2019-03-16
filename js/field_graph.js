@@ -69,7 +69,7 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 			j = Math.floor((p.x - 2) / (consts.TileHeight + 4));
 		var curr = new Point(i, j);
 
-		if(!this.active) {
+		if(!this.active || this.active && distance(this.active, curr) > 1) {
 			this.active = curr;		
 		}
 	}
