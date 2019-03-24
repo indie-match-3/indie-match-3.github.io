@@ -6,7 +6,7 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 
 	var active = false;
 	var tasks = [];
-	var fall_speed = 250;
+	var fall_speed = 625;
 
 	this.swap = function(p1, p2, backward) {
 		backward = backward || false;
@@ -14,8 +14,8 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 		var val1 = this.field.elems[p1.x][p1.y];
 		var val2 = this.field.elems[p2.x][p2.y];
 
-		var sp1 = new Sprite(sp_file, [40 * val1, 0], [40, 40]);
-		var sp2 = new Sprite(sp_file, [40 * val2, 0], [40, 40]);
+		var sp1 = new Sprite(sp_file, [consts.TileHeight * val1, 0], [consts.TileHeight, consts.TileWidth]);
+		var sp2 = new Sprite(sp_file, [consts.TileHeight * val2, 0], [consts.TileHeight, consts.TileWidth]);
 
 		var pots = this.field.getPotentials();
 		this.field.elems[p1.x][p1.y] = -1;
@@ -86,7 +86,7 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 	}
 
 	function push_fall(p, val, count, _this) {
-		var sp = new Sprite(sp_file, [40 * val, 0], [40, 40]);
+		var sp = new Sprite(sp_file, [consts.TileHeight * val, 0], [consts.TileHeight, consts.TileWidth]);
 		var pxy = new Point(2 + p.y * (consts.TileHeight + 4), 2 + p.x * (consts.TileWidth + 4));
 
 		tasks.push({
@@ -206,7 +206,7 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 				if(f != -1) {
 					renderEntity(ctx, {
 						pos: new Point(2 + j * (consts.TileHeight + 4), 2 + i * (consts.TileWidth + 4)),
-						sprite: new Sprite(sp_file, [40 * f, 0], [40, 40])
+						sprite: new Sprite(sp_file, [consts.TileHeight * f, 0], [consts.TileHeight, consts.TileHeight])
 					})
 				}
 			}
@@ -214,8 +214,8 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 
 		if(this.active) {
 			renderEntity(ctx, {
-					pos: new Point(this.active.y * (consts.TileWidth + 4), this.active.x * (consts.TileHeight + 4)),
-					sprite: new Sprite(sp_active, [0, 0], [44, 44])
+					pos: new Point(2 + this.active.y * (consts.TileWidth + 4), 2 + this.active.x * (consts.TileHeight + 4)),
+					sprite: new Sprite(sp_active, [0, 0], [consts.TileHeight + 4, consts.TileWidth + 4])
 				});
 		}
 

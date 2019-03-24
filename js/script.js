@@ -5,15 +5,15 @@ var frames = 0, timePassed = 0;
 var redraw = true;
 
 function onMouseDown(e) {
-	f.mDown(new Point(e.offsetX, e.offsetY));
+	f.mDown(new Point(e.offsetX / consts.WidthScale(canvas.width), e.offsetY / consts.HeightScale(canvas.height)));
 }
 
 function onMouseUp(e) {
-	f.mUp(new Point(e.offsetX, e.offsetY));
+	f.mUp(new Point(e.offsetX / consts.WidthScale(canvas.width), e.offsetY / consts.HeightScale(canvas.height)));
 }
 
 function onMouseMove(e) {
-	f.mMove(new Point(e.offsetX, e.offsetY));
+	f.mMove(new Point(e.offsetX / consts.WidthScale(canvas.width), e.offsetY / consts.HeightScale(canvas.height)));
 }
 
 function update(dt) {
@@ -26,11 +26,14 @@ function update(dt) {
 	timePassed += dt;
 	document.getElementById('fps-counter').innerHTML = Math.floor(frames / timePassed) + "fps";
 
-	redraw = f.update(dt);
+	f.update(dt);
 }
 
 function render() {
 	if(!redraw) return;
+
+	ctx.save();
+	ctx.scale(consts.WidthScale(canvas.width), consts.HeightScale(canvas.height));
 
     ctx.fillStyle = terrainPattern;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -39,10 +42,14 @@ function render() {
     document.getElementById('scores').innerHTML = "Scores: " + f.scores;
 
 	f.render(ctx);
+	ctx.restore();
 }
 
 var lastTime;
 function main() {
+	canvas.height = 0.6 * window.innerHeight;
+	canvas.width = canvas.height;
+
     var now = Date.now();
     var dt = (now - lastTime) / 1000.0;
 

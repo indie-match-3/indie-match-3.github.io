@@ -1,9 +1,13 @@
 var consts = {
-	WidthScale: canvas.width / 422,
-	HeightScale: canvas.height / 422,
+	WidthScale: function(w) {
+		return w / 1040;
+	},
+	HeightScale: function(h) {
+		return h / 1040;
+	},
 
-	TileWidth: 40,
-	TileHeight: 40,
+	TileWidth: 100,
+	TileHeight: 100,
 	WidthBlocks: 10,
 	HeightBlocks: 10,
 	FieldWidth: this.TileWidth * this.WidthBlocks,
