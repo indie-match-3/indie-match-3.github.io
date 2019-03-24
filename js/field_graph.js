@@ -127,6 +127,11 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 			this.removeCombos();
 		}
 
+		var res = (tasks.length != 0) || active;
+		// var res = true;
+
+		// console.log(active);
+
 		for(var i = 0; i < tasks.length; i++) {
 			var t = tasks[i];
 
@@ -172,6 +177,8 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 				}
 			}
 		}
+
+		return res;
 	}
 
 	this.removeCombos = function() {

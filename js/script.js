@@ -2,17 +2,18 @@ var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var f = new FieldGraphic(10, 10, 7, 'images/sprites.png', 'images/spriteBorderActive.png');
 var frames = 0, timePassed = 0;
+var redraw = true;
 
 function onMouseDown(e) {
-	f.mDown(new Point(e.layerX, e.layerY));
+	f.mDown(new Point(e.offsetX, e.offsetY));
 }
 
 function onMouseUp(e) {
-	f.mUp(new Point(e.layerX, e.layerY));
+	f.mUp(new Point(e.offsetX, e.offsetY));
 }
 
 function onMouseMove(e) {
-	f.mMove(new Point(e.layerX, e.layerY));
+	f.mMove(new Point(e.offsetX, e.offsetY));
 }
 
 function update(dt) {
@@ -25,10 +26,12 @@ function update(dt) {
 	timePassed += dt;
 	document.getElementById('fps-counter').innerHTML = Math.floor(frames / timePassed) + "fps";
 
-	f.update(dt);
+	redraw = f.update(dt);
 }
 
 function render() {
+	if(!redraw) return;
+
     ctx.fillStyle = terrainPattern;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -43,8 +46,8 @@ function main() {
     var now = Date.now();
     var dt = (now - lastTime) / 1000.0;
 
-    update(dt);
     render();
+    update(dt);
 
     lastTime = now;
     requestAnimationFrame(main);
@@ -57,6 +60,7 @@ function init() {
 	canvas.addEventListener("mousedown", onMouseDown, false);
 	canvas.addEventListener("mouseup", onMouseUp, false);
 	canvas.addEventListener("mousemove", onMouseMove, false);
+	// canvas.addEventListener("touchmove", e => { onMouseDown(e); onMouseMove(e)} , false);
 
     lastTime = Date.now();
 
