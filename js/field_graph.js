@@ -208,16 +208,23 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 						pos: new Point(2 + j * (consts.TileHeight + 4), 2 + i * (consts.TileWidth + 4)),
 						sprite: new Sprite(sp_file, [consts.TileHeight * f, 0], [consts.TileHeight, consts.TileHeight])
 					})
+
+					if(!this.active || 	(this.active.x != i || this.active.y != j)) {
+						renderEntity(ctx, {
+							pos: new Point(2 + j * (consts.TileHeight + 4), 2 + i * (consts.TileWidth + 4)),
+							sprite: new Sprite(sp_active, [0, 0], [consts.TileHeight + 4, consts.TileWidth + 4])
+						});
+					}
 				}
 			}
 		}
 
-		if(this.active) {
-			renderEntity(ctx, {
-					pos: new Point(2 + this.active.y * (consts.TileWidth + 4), 2 + this.active.x * (consts.TileHeight + 4)),
-					sprite: new Sprite(sp_active, [0, 0], [consts.TileHeight + 4, consts.TileWidth + 4])
-				});
-		}
+		// if(this.active) {
+		// 	renderEntity(ctx, {
+		// 			pos: new Point(2 + this.active.y * (consts.TileWidth + 4), 2 + this.active.x * (consts.TileHeight + 4)),
+		// 			sprite: new Sprite(sp_active, [0, 0], [consts.TileHeight + 4, consts.TileWidth + 4])
+		// 		});
+		// }
 
 		for(var i = 0; i < tasks.length; i++) {
 			var t = tasks[i];
