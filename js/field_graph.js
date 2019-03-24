@@ -8,7 +8,9 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 	var tasks = [];
 	var fall_speed = 250;
 
-	this.swap = function(p1, p2, backward = false) {
+	this.swap = function(p1, p2, backward) {
+		backward = backward || false;
+
 		var val1 = this.field.elems[p1.x][p1.y];
 		var val2 = this.field.elems[p2.x][p2.y];
 
@@ -67,6 +69,8 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 		} else if(this.active && distance(this.active, curr) == 1) {
 			this.swap(this.active, curr);
 			this.active = false;
+		} else {
+			this.active = false;			
 		}
 	}
 
@@ -127,7 +131,7 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 			this.removeCombos();
 		}
 
-		var res = (tasks.length != 0) || active;
+		var res = this.active || (tasks.length != 0);
 		// var res = true;
 
 		// console.log(active);
@@ -196,13 +200,6 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 	}
 
 	this.render = function(ctx) {
-		if(this.active) {
-			renderEntity(ctx, {
-					pos: new Point(this.active.y * (consts.TileWidth + 4), this.active.x * (consts.TileHeight + 4)),
-					sprite: new Sprite(sp_active, [0, 0], [44, 44])
-				});
-		}
-
 		for(var i = 0; i < m; i++) {
 			for(var j = 0; j < n; j++) {
 				var f = this.field.elems[i][j];
@@ -213,6 +210,13 @@ function FieldGraphic(m, n, max_rand, sp_file, sp_active) {
 					})
 				}
 			}
+		}
+
+		if(this.active) {
+			renderEntity(ctx, {
+					pos: new Point(this.active.y * (consts.TileWidth + 4), this.active.x * (consts.TileHeight + 4)),
+					sprite: new Sprite(sp_active, [0, 0], [44, 44])
+				});
 		}
 
 		for(var i = 0; i < tasks.length; i++) {

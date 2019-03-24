@@ -40,15 +40,17 @@ function Combo() {
 	}
 
 	this.contains = function(point) {
-		return this.points.some(p => p.equal(point));
+		return this.points.some(function(p) { return p.equal(point) });
 	}
 
 	this.intersects = function(combo) {
-		return this.points.some(p => combo.contains(p));
+		return this.points.some(function(p) { return combo.contains(p) });
 	}
 
 	this.merge = function(combo) {
-		this.points = this.points.concat(combo.points.filter(p => !this.contains(p)));
+		var _ = this;
+
+		this.points = this.points.concat(combo.points.filter(function(p) { return !_.contains(p) }));
 	}
 }
 
@@ -60,12 +62,19 @@ function razn(p1, p2) {
 	return move(p1, p2, -1);
 }
 
-function move(p, dp, k = 1) {
+function move(p, dp, k) {
+	k = k || 1;
 	return new Point(p.x + dp.x * k, p.y + dp.y * k);
 }
 
 function sign(p) {
-	return new Point(Math.sign(p.x), Math.sign(p.y))
+	function _sign(n) {
+		if(n > 0) return 1;
+		else if(n < 0) return -1;
+		else return 0;
+	}
+
+	return new Point(_sign(p.x), _sign(p.y));
 }
 
 function inRange(a, b, p) {

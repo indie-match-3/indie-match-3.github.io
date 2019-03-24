@@ -150,6 +150,6 @@ function Field(m, n, max_rand) {
 	}
 
 	this.checkAction = function(potentials, pp) {
-		return potentials.some(pot => pot.equal(pp));
+		return potentials.some(function(pot) { return pot.equal(pp) });
 	}
 }
