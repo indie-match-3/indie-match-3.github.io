@@ -36,8 +36,8 @@ function render() {
 	ctx.scale(consts.WidthScale(canvas.width), consts.HeightScale(canvas.height));
 
     ctx.fillStyle = terrainPattern;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, 1040, 1040);
+    ctx.fillRect(0, 0, 1040, 1040);
 
     document.getElementById('scores').innerHTML = "Scores: " + f.scores;
 
@@ -47,7 +47,7 @@ function render() {
 
 var lastTime;
 function main() {
-	canvas.height = 0.6 * window.innerHeight;
+	canvas.height = 0.8 * window.innerHeight;
 	canvas.width = canvas.height;
 
     var now = Date.now();
