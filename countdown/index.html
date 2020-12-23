@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Countdown</title>
+	<style type="text/css">
+		div{
+			font-size: 50px;
+			text-align: center;
+		}
+
+		#countdown{
+			margin-top: 25px;
+			margin-bottom: 25px;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="title">Time until my beloved returns</div>
+	<div id="countdown">
+		<div id="days"></div>
+		<div id="hours"></div>
+		<div id="minutes"></div>
+		<div id="seconds"></div>
+	</div>
+	<div>
+		I love you and really miss you
+	</div>
+
+	<script type="text/javascript">
+		var countdownDate = new Date(Date.UTC(2020, 0, 25, 23, 0)).getTime();
+
+		function cntDown() {
+		  var now = new Date().getTime();
+
+		  var distance = countdownDate - now;
+
+		  document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24)) + " Days";
+		  document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / 
+		  	(1000 * 60 * 60)) + " Hours";
+		  document.getElementById("minutes").innerHTML  = Math.floor((distance % (1000 * 60 * 60)) / 
+		  	(1000 * 60)) + " Minutes";
+		  document.getElementById("seconds").innerHTML  = Math.floor((distance % (1000 * 60)) / 1000) + " Seconds";
+
+		  if (distance < 0) {
+		    document.getElementById("countdown").innerHTML = "We are together again";
+		  } else {
+		  	setTimeout(cntDown, 1000);
+		  }
+		}
+
+		cntDown();
+	</script>
+</body>
+</html>
