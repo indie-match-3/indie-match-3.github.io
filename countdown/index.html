@@ -16,31 +16,33 @@
 	</style>
 </head>
 <body>
-	<div id="title">Time until my beloved returns</div>
+	<div id="title">Time until holidays</div>
 	<div id="countdown">
+		<div id="total"></div>
 		<div id="days"></div>
 		<div id="hours"></div>
 		<div id="minutes"></div>
 		<div id="seconds"></div>
 	</div>
-	<div>
-		I love you and really miss you
-	</div>
 
 	<script type="text/javascript">
-		var countdownDate = new Date(Date.UTC(2020, 0, 25, 23, 0)).getTime();
+		var countdownDate = new Date(Date.UTC(2020, 11, 29, 19, 0)).getTime();
 
 		function cntDown() {
 		  var now = new Date().getTime();
 
 		  var distance = countdownDate - now;
+		  days = distance / (1000 * 60 * 60 * 24);
+		  hours = days * 24;
+		  minutes = hours * 60;
+		  seconds = minutes * 60;
 
-		  document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24)) + " Days";
-		  document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / 
-		  	(1000 * 60 * 60)) + " Hours";
-		  document.getElementById("minutes").innerHTML  = Math.floor((distance % (1000 * 60 * 60)) / 
-		  	(1000 * 60)) + " Minutes";
-		  document.getElementById("seconds").innerHTML  = Math.floor((distance % (1000 * 60)) / 1000) + " Seconds";
+		  document.getElementById("total").innerHTML = Math.floor(days) + " Days " + Math.floor(hours % 24) + " Hours " +
+		  	Math.floor(minutes % 60) + " Minutes " + Math.floor(seconds % 60) + " Seconds";
+		  document.getElementById("days").innerHTML = Math.floor(days) + " Days";
+		  document.getElementById("hours").innerHTML = Math.floor(hours) + " Hours";
+		  document.getElementById("minutes").innerHTML  = Math.floor(minutes) + " Minutes";
+		  document.getElementById("seconds").innerHTML  = Math.floor(seconds) + " Seconds";
 
 		  if (distance < 0) {
 		    document.getElementById("countdown").innerHTML = "We are together again";
